@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 
 // Get ONE by ID
 router.get("/:id", (req, res) => {
-  const found = members.some((member) => member.id === req.params.id);
+  const found = members.some((member) => member.id === parseInt(req.params.id));
 
   if (found) {
     res.json(members.filter((member) => member.id === parseInt(req.params.id)));
@@ -34,6 +34,26 @@ router.post("/", (req, res) => {
 
   members.push(newMember);
   res.json(members);
+});
+
+// Update Member
+router.put("/:id", (req, res) => {
+  const found = members.some((member) => member.id === parseInt(req.params.id));
+  console.log(members);
+
+  if (found) {
+    const updMember = req.body;
+    members.forEach((member) => {
+      if (member.id === parseInt(req.params.id)) {
+        member.name = updMember.name ? updMember.name : member.name;
+        member.email = updMember.email ? updMember.email : member.email;
+
+        res.json({ msg: "Member updated", member });
+      }
+    });
+  } else {
+    res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
+  }
 });
 
 module.exports = router;
