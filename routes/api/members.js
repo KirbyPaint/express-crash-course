@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
   res.json(members);
 });
 
+// Get ONE by ID
 router.get("/:id", (req, res) => {
   const found = members.some((member) => member.id === req.params.id);
 
@@ -15,6 +16,11 @@ router.get("/:id", (req, res) => {
   } else {
     res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
   }
+});
+
+// Create Member
+router.post("/", (req, res) => {
+  const newMember = {};
 });
 
 module.exports = router;
